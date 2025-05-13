@@ -1,0 +1,2 @@
+class InboxMessage < ApplicationRecord
+end

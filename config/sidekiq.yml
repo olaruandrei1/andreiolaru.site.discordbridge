@@ -1,0 +1,9 @@
+:concurrency: 5
+:queues:
+  - default
+  - low_priority
+
+:schedule:
+  retry_failed_discord_messages:
+    cron: "*/30 * * * *" 
+    class: "RetryFailedDiscordMessagesJob"

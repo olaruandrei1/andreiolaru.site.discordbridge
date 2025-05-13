@@ -1,0 +1,10 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  username: P_W_OLCA_S
+  password: 67MsNqG
+  host: 127.0.0.1
+
+development:
+  <<: *default
+  database: discord_bridge
