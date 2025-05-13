@@ -11,7 +11,7 @@ module AndreiolaruSiteDiscordbridge
     config.load_defaults 8.0
     config.middleware.insert_before 0, ApiKeyAuthMiddleware
     config.api_only = true
-
+    config.active_job.queue_adapter = :sidekiq
     config.autoload_paths << Rails.root.join("app/middleware")
     config.autoload_paths << Rails.root.join("app/dtos")
     config.autoload_paths << Rails.root.join("app/gateways")

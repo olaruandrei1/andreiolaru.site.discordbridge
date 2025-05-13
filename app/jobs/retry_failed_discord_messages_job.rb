@@ -21,7 +21,6 @@ class RetryFailedDiscordMessagesJob < ApplicationJob
         end
       end
   
-      # Cleanup index (keep only still failing ones)
       remaining = keys.select { |k| Rails.cache.exist?(k) }
       Rails.cache.write("failed_discord_msg_index", remaining)
     end
