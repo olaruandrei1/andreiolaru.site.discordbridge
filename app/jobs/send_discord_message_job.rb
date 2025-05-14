@@ -3,6 +3,7 @@ class SendDiscordMessageJob < ApplicationJob
   retry_on StandardError, attempts: 3, wait: 10.seconds
 
   def perform(dto_hash)
+    @dto_hash = dto_hash
     dto = MessageDto.new(**dto_hash.symbolize_keys)
 
     DiscordNotifier.call(dto)
@@ -12,11 +13,13 @@ class SendDiscordMessageJob < ApplicationJob
   end
 
   rescue_from(StandardError) do |exception|
-    msg_id = dto_hash["message_id"]
+    msg_id = @dto_hash["message_id"]
     cache_key = "failed_discord_msg_#{msg_id}"
 
-    Rails.cache.write(cache_key, dto_hash, expires_in: 12.hours)
-    Rails.cache.fetch("failed_discord_msg_index") { [] } << cache_key rescue nil
+    Rails.cache.write(cache_key, @dto_hash, expires_in: 12.hours)
+
+    index = Rails.cache.fetch("failed_discord_msg_index") { [] }
+    Rails.cache.write("failed_discord_msg_index", index << cache_key)
 
     InboxMessage.find_by(message_id: msg_id)&.update!(status: "failed")
 

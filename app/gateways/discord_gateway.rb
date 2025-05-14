@@ -1,3 +1,6 @@
+require 'net/http'
+require 'uri'
+
 class DiscordGateway
     def self.send(payload)
       webhook_url = ENV['DISCORD_WEBHOOK_URL']
