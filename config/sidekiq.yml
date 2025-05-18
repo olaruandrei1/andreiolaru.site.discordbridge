@@ -5,5 +5,5 @@
 
 :schedule:
   retry_failed_discord_messages:
-    cron: "*/30 * * * *" 
+    cron: "*/30 * * * *"
     class: "RetryFailedDiscordMessagesJob"
